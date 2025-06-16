@@ -1,0 +1,16 @@
+services:
+  webdev_database:
+    image: mysql
+    restart: always
+    env_file:
+      - .env
+  webdev_server:
+    build:
+      dockerfile: ../dockerfile
+      context: src/
+    volumes:
+      - ./src/:/var/www/webdev.com/
+    ports:
+      - 80:80
+    env_file:
+      - .env
