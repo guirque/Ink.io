@@ -4,6 +4,12 @@ services:
     restart: always
     env_file:
       - .env
+    volumes:
+      - ./db/:/var/lib/mysql
+    ports:
+      - 3307:3306
+    networks:
+      - webdev_network
   webdev_server:
     build:
       dockerfile: ../dockerfile
@@ -14,3 +20,7 @@ services:
       - 80:80
     env_file:
       - .env
+    networks:
+      - webdev_network
+networks:
+  webdev_network:
