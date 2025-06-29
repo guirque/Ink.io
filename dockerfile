@@ -28,6 +28,13 @@ RUN echo \
 # Enabling Virtual Host
 RUN a2ensite webdev.com
 
+# Adding permissions (https://stackoverflow.com/questions/8103860/move-uploaded-file-gives-failed-to-open-stream-permission-denied-error)
+RUN chown www-data /var/www/
+RUN chown www-data /tmp/
+
+RUN chmod 755 /var/www
+RUN chmod 755 /tmp/
+
 # Running (https://stackoverflow.com/questions/49764989/cannot-start-apache-automatically-with-docker)
 CMD ["apachectl", "-D", "FOREGROUND"]
 
