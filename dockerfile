@@ -20,7 +20,7 @@ RUN echo \
     ServerName webdev.com\n\
     ServerAlias www.webdev.com\n \
     DirectoryIndex index.html\n\
-    DocumentRoot /var/www/webdev.com\n\
+    DocumentRoot /var/www/webdev.com/src\n\
     ErrorLog ${APACHE_LOG_DIR}/error.log\n\
     CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
 </VirtualHost>\n" > etc/apache2/sites-available/webdev.com.conf
@@ -34,6 +34,19 @@ RUN chown www-data /tmp/
 
 RUN chmod 755 /var/www
 RUN chmod 755 /tmp/
+
+# Installing composer (https://getcomposer.org/download/ | https://stackoverflow.com/questions/41274829/php-error-the-zip-extension-and-unzip-command-are-both-missing-skipping | https://stackoverflow.com/questions/20632258/change-directory-command-in-docker)
+WORKDIR /var/www/webdev.com/
+RUN apt-get install php-zip -y
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+RUN php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); exit(1); }"
+RUN php composer-setup.php
+RUN php -r "unlink('composer-setup.php');"
+
+# Installing Project Dependencies (https://getcomposer.org/doc/01-basic-usage.md)
+COPY composer.json composer.json
+COPY composer.lock composer.lock
+RUN php composer.phar install
 
 # Running (https://stackoverflow.com/questions/49764989/cannot-start-apache-automatically-with-docker)
 CMD ["apachectl", "-D", "FOREGROUND"]

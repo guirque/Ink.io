@@ -12,10 +12,10 @@ services:
       - webdev_network
   webdev_server:
     build:
-      dockerfile: ../dockerfile
-      context: src/
+      dockerfile: ./dockerfile
+      context: .
     volumes:
-      - ./src/:/var/www/webdev.com/
+      - ./src/:/var/www/webdev.com/src/
     ports:
       - 80:80
     env_file:
