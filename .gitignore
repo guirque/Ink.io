@@ -2,3 +2,5 @@
 db/
 src/photos/user_drawing/*
 src/photos/user_profile/*
+vendor/
+composer.phar
