@@ -4,14 +4,13 @@
 class DBManager
 {
     private $connection;
-    private $createUserStmt, $createDrawingStmt, $getRecentDrawingsStmt, $getUserByIdStmt;
+    private $createUserStmt, $createDrawingStmt, $getRecentDrawingsStmt, $getUserByIdStmt, $getUserByEmailStmt;
 
     function __construct()
     {
         // Create connection
         try
         {
-            echo "Setting up connection...";
             $this->connection = new PDO('mysql:host=webdev_database;dbname='.getenv('MYSQL_DATABASE'), 'root', getenv('MYSQL_ROOT_PASSWORD'));
         }
         catch(PDOException $e)
@@ -25,6 +24,7 @@ class DBManager
         $this->createDrawingStmt = $this->connection->prepare("INSERT INTO drawing (Id, Author, Title, Description, Image, Published_Date) VALUES (:id, :author, :title, :description, :image, :published_Date)");
         $this->getRecentDrawingsStmt = $this->connection->prepare("SELECT TOP :num_top FROM drawing");
         $this->getUserByIdStmt = $this->connection->prepare("SELECT * FROM user WHERE Username=:username");
+        $this->getUserByEmailStmt = $this->connection->prepare("SELECT * FROM user WHERE Email=:email");
     }
     
     function getConnection()
@@ -66,14 +66,27 @@ class DBManager
 
     function get_user_by_id($username)
     {
-
-        echo $username;
         try
         {
             $this->getUserByIdStmt->execute(array(
                 ":username"=>$username
             ));
             return $this->getUserByIdStmt->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(Exception $e)
+        {
+            echo "An error occurred: ".e->getMessage();
+        }
+    }
+
+    function get_user_by_email($email)
+    {
+        try
+        {
+            $this->getUserByEmailStmt->execute(array(
+                ":email"=>$email
+            ));
+            return $this->getUserByEmailStmt->fetch(PDO::FETCH_ASSOC);
         }
         catch(Exception $e)
         {
