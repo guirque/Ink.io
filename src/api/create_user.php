@@ -14,7 +14,7 @@
 
         echo "<br>";
 
-        $file_path = "/var/www/webdev.com/".getenv("USER_PROFILE_PATH");
+        $file_path = "/var/www/webdev.com/src/".getenv("USER_PROFILE_PATH");
 
         # Uploading Photo --------------------------------------------------------
         # If temporary file exists
@@ -38,12 +38,15 @@
                 {
                     echo "<h1>An error occurred when trying to save image.</h1>";
                 }
+                else
+                {
+                    # Saving user on database
+                    $encrypted_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+                    $db_manager_obj->create_user($_POST['username'], $encrypted_password, $_POST['email'], $file_name);
+                    echo "<h1>User creation operation finished.</h1>";
+                    # echo "<hr><img src=\"http://webdev.com/photos/user_profile/$file_name\" alt=\"user photo\" width=\"400\"/><hr>";
+                }
     
-                # Saving user on database
-                $encrypted_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-                $db_manager_obj->create_user($_POST['username'], $encrypted_password, $_POST['email'], $file_name);
-                echo "<h1>User creation operation finished.</h1>";
-                # echo "<hr><img src=\"http://webdev.com/photos/user_profile/$file_name\" alt=\"user photo\" width=\"400\"/><hr>";
             }
             else echo "<h1>File extension $file_extension not accepted.</h1>";
 
