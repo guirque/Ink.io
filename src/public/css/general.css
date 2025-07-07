@@ -1,0 +1,16 @@
+#draw-btn
+{
+    position: fixed; 
+    right: 3vw; 
+    bottom: 2vh; 
+    z-index: 1;
+    background-image: linear-gradient(70deg, rgb(133, 211, 234), rgb(221, 238, 123), rgb(155, 146, 248));
+    transition: transform 200ms;
+    font-weight: 500;
+    font-size: large;
+}
+#draw-btn:hover
+{
+    transform: scale(1.1);
+    border-width: 10px !important;
+}
