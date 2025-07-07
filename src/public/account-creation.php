@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <?php require_once "components/navbar.php" ?>
+    <?php include_once getenv("SRC_PATH")."/components/navbar.php" ?>
 
     <div class="container d-flex gap-4 pb-5 justify-content-center" style="flex-direction: column; min-height: 100vh;">
         <div class="container">
@@ -44,7 +44,7 @@
         </div>
 
     </div>
-        <?php require_once "components/footer.php" ?>
+        <?php include_once getenv("SRC_PATH")."/components/footer.php" ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>

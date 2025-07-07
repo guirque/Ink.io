@@ -14,7 +14,7 @@
 
         echo "<br>";
 
-        $file_path = "/var/www/webdev.com/src/".getenv("USER_PROFILE_PATH");
+        $file_path = getenv("SRC_PATH")."/".getenv("USER_PROFILE_PATH");
 
         # Uploading Photo --------------------------------------------------------
         # If temporary file exists
