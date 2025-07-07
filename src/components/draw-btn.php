@@ -1,0 +1,1 @@
+<a href="/draw.php" class="btn border-2 border-dark" id="draw-btn">Draw Now</a>
