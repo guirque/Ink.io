@@ -6,8 +6,7 @@
 
         <!-- Links -->
         <ul class="navbar-nav align-items-center">
-            <li class="nav-item"><a href="" class="nav-link">Public Gallery</a></li>
-            <li class="nav-item"><a href="" class="nav-link">Your Gallery</a></li>
+            <li class="nav-item"><a href="/" class="nav-link">Public Gallery</a></li>
             
             <?php
 
@@ -23,12 +22,17 @@
                     
                     $profile_picture = $token_content['profile_picture'];
                     
+                    echo '<li class="nav-item"><a href="users/'.$token_content['username'].'" class="nav-link">Your Gallery</a></li> ';
+
                     echo '<div class="container nav-item nav-link">
                         <span>'.$token_content['username'].'</span>
                         <img src="/photos/user_profile/'.$profile_picture.'" rel="your profile picture" style="height: 3vh;">
                     </div>';
                 }
-                else echo "<li class=\"nav-item\"><a href=\"login.php\" class=\"nav-link\">Login</a></li>"
+                else {
+                    echo '<li class="nav-item"><a href="login.php" class="nav-link">Your Gallery</a></li>';
+                    echo '<li class="nav-item"><a href="login.php" class="nav-link">Login</a></li>';
+                }
             ?>
             
         </ul>
