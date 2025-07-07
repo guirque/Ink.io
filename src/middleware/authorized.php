@@ -3,23 +3,23 @@
     use Firebase\JWT\Key;
 
     require_once getenv("WEB_APP_PATH")."/vendor/autoload.php";
+    require_once getenv("SRC_PATH")."/utils/cookie-checker.php";
     
     function checkCookieValidation($username=NULL)
     {
         try
         {
-            if(isset($_COOKIE['session_token']))
+            $sessionToken = checkCookie();
+            if(isset($sessionToken) && isset($sessionToken['username']))
             {
-                $token = $_COOKIE['session_token'];
-                $token_data = JWT::decode($token, new Key(getenv("SERVER_SECRET"), "HS256"));
-                
-                if($username != NULL && $token_data['username'] != $username)
+                if($username != NULL && $sessionToken['username'] != $username)
                 {
                     return false;
                 }
     
                 return true;
             }
+            else return false;
         }
         catch(Exception $e)
         {
@@ -36,11 +36,18 @@
      */
     function loadPageWithValidation($page_link, $username=NULL)
     {
-        if(checkCookieValidation($username))
+        try
         {
-            require_once($page_link);
+            if(checkCookieValidation($username))
+            {
+                require_once($page_link);
+            }
+            else require_once(getenv("SRC_PATH")."/public/login.php");
         }
-        else require_once(getenv("SRC_PATH")."/public/login.php");
+        catch(Exception $e)
+        {
+            require_once(getenv("SRC_PATH")."/public/login.php");
+        }
     }
 
 ?>
