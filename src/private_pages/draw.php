@@ -30,7 +30,7 @@
                     <input type="text" name="draw-description" id="draw-description" class="form-control">
                     <br>
 
-                    <input type="submit" class="btn btn-success" value="Save" id="save-button"></button>
+                    <input type="submit" class="btn btn-primary" value="Save and Publish" id="save-button"></button>
                 </form>
             </div>
 
