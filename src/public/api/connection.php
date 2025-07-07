@@ -21,8 +21,7 @@ class DBManager
 
         // Create Statements
         $this->createUserStmt = $this->connection->prepare("INSERT INTO user (Username, Password, Profile_Picture, Email) VALUES (:username, :password, :profile_picture, :email)");        
-        $this->createDrawingStmt = $this->connection->prepare("INSERT INTO drawing (Id, Author, Title, Description, Image, Published_Date) VALUES (:id, :author, :title, :description, :image, :published_Date)");
-        $this->getRecentDrawingsStmt = $this->connection->prepare("SELECT TOP :num_top FROM drawing");
+        $this->getRecentDrawingsStmt = $this->connection->prepare("SELECT d.Author, d.Title, d.Description, d.Image, d.Published_Date, u.Profile_Picture FROM drawing as d, user as u WHERE d.Author = u.Username LIMIT 9");
         $this->getUserByIdStmt = $this->connection->prepare("SELECT * FROM user WHERE Username=:username");
         $this->getUserByEmailStmt = $this->connection->prepare("SELECT * FROM user WHERE Email=:email");
     }
@@ -50,17 +49,23 @@ class DBManager
         }
     }
 
-    function get_recent_drawings($num_drawings)
+    function get_recent_drawings()
     {
         try
         {
-            return $this->getRecentDrawingsStmt->execute(array(
-                ":num_top"=>$num_drawings
-            ));
+            $this->getRecentDrawingsStmt->execute();
+
+            $res = [];
+
+            while($row = $this->getRecentDrawingsStmt->fetch(PDO::FETCH_ASSOC))
+            {
+                array_push($res, $row);
+            }
+            return $res;
         }
         catch(Exception $e)
         {
-            echo "An error occurred: ".e->getMessage();
+            echo "An error occurred: ".$e->getMessage();
         }
     }
 
@@ -75,7 +80,7 @@ class DBManager
         }
         catch(Exception $e)
         {
-            echo "An error occurred: ".e->getMessage();
+            echo "An error occurred: ".$e->getMessage();
         }
     }
 
@@ -90,7 +95,7 @@ class DBManager
         }
         catch(Exception $e)
         {
-            echo "An error occurred: ".e->getMessage();
+            echo "An error occurred: ".$e->getMessage();
         }
     }
 }
