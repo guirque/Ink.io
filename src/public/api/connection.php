@@ -21,6 +21,7 @@ class DBManager
 
         // Create Statements
         $this->createUserStmt = $this->connection->prepare("INSERT INTO user (Username, Password, Profile_Picture, Email) VALUES (:username, :password, :profile_picture, :email)");        
+        $this->createDrawingStmt = $this->connection->prepare("INSERT INTO drawing (Id, Author, Title, Description, Image, Published_Date) VALUES (:id, :author, :title, :description, :image, :published_date)");
         $this->getRecentDrawingsStmt = $this->connection->prepare("SELECT d.Author, d.Title, d.Description, d.Image, d.Published_Date, u.Profile_Picture FROM drawing as d, user as u WHERE d.Author = u.Username LIMIT 9");
         $this->getUserByIdStmt = $this->connection->prepare("SELECT * FROM user WHERE Username=:username");
         $this->getUserByEmailStmt = $this->connection->prepare("SELECT * FROM user WHERE Email=:email");
@@ -41,6 +42,26 @@ class DBManager
                 ":password"=>$password,
                 ":profile_picture"=>$profile_picture,
                 ":email"=>$email
+            ));
+        }
+        catch(Exception $e)
+        {
+            echo "An error occurred: ".$e->getMessage();
+        }
+    }
+
+    function create_drawing($author, $title, $description, $image)
+    {
+        try
+        {
+            //(:id, :author, :title, :description, :image, :published_date)");
+            $this->createDrawingStmt->execute(array(
+                ":id"=>uniqid("d-"),
+                ":author"=>$author,
+                ":title"=>$title,
+                ":description"=>$description,
+                ":image"=>$image,
+                ":published_date"=>date("Y-m-d H:i:s")  #https://www.uptimia.com/questions/what-is-the-correct-php-date-format-for-mysql-datetime-columns#:~:text=To%20format%20dates%20in%20PHP,that%20MySQL%20can%20store%20correctly.
             ));
         }
         catch(Exception $e)
