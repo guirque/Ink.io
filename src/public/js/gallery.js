@@ -13,14 +13,32 @@ async function getDrawings()
     return res;
 }
 
-async function renderDrawings()
+async function getDrawingsByUser()
 {
-    let drawings = await getDrawings();
-    
+    // https://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+    // https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/get
+
+    let params = new URLSearchParams(document.location.search);
+    let userParam = params.get('user');
+    let res = await fetch(`/api/get_user_drawings.php?user=${userParam}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        }
+    })
+
+    res = await res.json();
+    return res;
+}
+
+
+async function renderDrawings(all=true)
+{
+    let drawings = all ? await getDrawings() : await getDrawingsByUser();
+    drawings = drawings.reverse();
     let i = 0, last_column = null;
     for(let drawing of drawings)
     {
-        console.log(drawing);
         if(i % 3 == 0)
         {
             // Adding new row
@@ -38,9 +56,11 @@ async function renderDrawings()
 
         newCard.innerHTML = `
             <!-- User info -->
-            <div class="card-header hstack gap-2 align-items-center drawing-header">
-                <img src="./img/icon.png" class="drawing-profile-img" alt="User photo" style="width:40px;">
-                <h3 class="drawing-author"> User </h3>
+            <div class="card-header drawing-header">
+                <a href="" class="drawing-user-link hstack gap-3 align-items-center">
+                    <img src="./img/icon.png" class="drawing-profile-img object-fit-contain rounded-circle border border-secondary border-1" alt="User photo" style="width:40px;">
+                    <h3 class="drawing-author text-dark"> User </h3>
+                </a>
             </div>
 
             <!-- Drawing itself -->
@@ -61,6 +81,7 @@ async function renderDrawings()
 
         header.querySelector('.drawing-profile-img').setAttribute('src', `./photos/user_profile/${drawing['Profile_Picture']}`);
         header.querySelector('.drawing-author').textContent = drawing['Author'];
+        header.querySelector('.drawing-user-link').setAttribute('href', `/personal-gallery.php?user=${drawing['Author']}`);
         drawingImg.setAttribute('src', `./photos/user_drawing/${drawing['Image']}`);
         cardDesc.textContent = drawing['Description'];
 
@@ -71,5 +92,3 @@ async function renderDrawings()
         i++;
     }
 }
-
-renderDrawings();
