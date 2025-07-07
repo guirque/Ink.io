@@ -19,8 +19,8 @@ RUN echo \
     ServerAdmin admin@localhost\n\
     ServerName webdev.com\n\
     ServerAlias www.webdev.com\n \
-    DirectoryIndex index.html\n\
-    DocumentRoot /var/www/webdev.com/src\n\
+    DirectoryIndex gallery.php\n\
+    DocumentRoot /var/www/webdev.com/src/public\n\
     ErrorLog ${APACHE_LOG_DIR}/error.log\n\
     CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
 </VirtualHost>\n" > etc/apache2/sites-available/webdev.com.conf
