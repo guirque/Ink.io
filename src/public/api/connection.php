@@ -4,7 +4,8 @@
 class DBManager
 {
     private $connection;
-    private $createUserStmt, $createDrawingStmt, $getRecentDrawingsStmt, $getUserByIdStmt, $getUserByEmailStmt, $getDrawingsByUserStmt;
+    private $createUserStmt, $createDrawingStmt, $getRecentDrawingsStmt, $getUserByIdStmt, 
+    $getUserByEmailStmt, $getDrawingsByUserStmt, $deleteUserByIdStmt;
 
     function __construct()
     {
@@ -26,6 +27,7 @@ class DBManager
         $this->getUserByIdStmt = $this->connection->prepare("SELECT * FROM user WHERE Username=:username");
         $this->getUserByEmailStmt = $this->connection->prepare("SELECT * FROM user WHERE Email=:email");
         $this->getDrawingsByUserStmt = $this->connection->prepare("SELECT d.Author, d.Title, d.Description, d.Image, d.Published_Date, u.Profile_Picture FROM drawing as d, user as u WHERE d.Author = u.Username AND d.Author=:username");
+        $this->deleteUserByIdStmt = $this->connection->prepare("DELETE FROM user WHERE Username=:id");
     }
     
     function getConnection()
@@ -136,6 +138,20 @@ class DBManager
                 ":email"=>$email
             ));
             return $this->getUserByEmailStmt->fetch(PDO::FETCH_ASSOC);
+        }
+        catch(Exception $e)
+        {
+            echo "An error occurred: ".$e->getMessage();
+        }
+    }
+
+    function delete_user_by_id($id)
+    {
+         try
+        {
+            $this->deleteUserByIdStmt->execute(array(
+                ":id"=>$id
+            ));
         }
         catch(Exception $e)
         {
