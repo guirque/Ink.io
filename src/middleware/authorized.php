@@ -36,17 +36,23 @@
      */
     function loadPageWithValidation($page_link, $username=NULL)
     {
+        
         try
         {
             if(checkCookieValidation($username))
             {
                 require_once($page_link);
             }
-            else require_once(getenv("SRC_PATH")."/public/login.php");
+            else 
+            {
+                require_once(getenv("SRC_PATH")."/public/login.php");
+                emitSessionAlert();
+            }
         }
         catch(Exception $e)
         {
             require_once(getenv("SRC_PATH")."/public/login.php");
+            emitSessionAlert();
         }
     }
 

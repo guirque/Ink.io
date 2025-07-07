@@ -27,12 +27,16 @@
         }
         catch(Exception $e)
         {
-            echo '<div class="alert alert-danger alert-dismissible m-2" role="alert" style="position: fixed; z-index: 1;">
+            return NULL;
+        }
+    }
+
+    function emitSessionAlert()
+    {
+        echo '<div class="alert alert-danger alert-dismissible m-2" role="alert" style="position: fixed; z-index: 1;">
                 Access Denied. Please login again.
                 <button class="btn btn-close" data-bs-dismiss="alert" role="close alert">
             </div>';
-            return NULL;
-        }
     }
 
 
