@@ -9,25 +9,23 @@
             <li class="nav-item"><a href="/" class="nav-link">Public Gallery</a></li>
             
             <?php
+                require_once getenv("SRC_PATH")."/utils/cookie-checker.php";
 
-                use Firebase\JWT\JWT;
-                use Firebase\JWT\Key;
+                $session_token = checkCookie();
 
-                require_once getenv("WEB_APP_PATH")."/vendor/autoload.php";
-
-                if(isset($_COOKIE['session_token']))
+                if(isset($session_token) && isset($session_token['username']))
                 {
-                    $session_token = $_COOKIE['session_token'];
-                    $token_content = (array) JWT::decode($session_token, new Key(getenv("SERVER_SECRET"), "HS256"));
                     
-                    $profile_picture = $token_content['profile_picture'];
+                    $profile_picture = $session_token['profile_picture'];
                     
-                    echo '<li class="nav-item"><a href="users/'.$token_content['username'].'" class="nav-link">Your Gallery</a></li> ';
+                    $profile_link = "/personal-gallery.php?user=".$session_token['username'];
 
-                    echo '<div class="container nav-item nav-link">
-                        <span>'.$token_content['username'].'</span>
+                    echo '<li class="nav-item"><a href="'.$profile_link.'" class="nav-link">Your Gallery</a></li> ';
+
+                    echo '<a href="'.$profile_link.'" class="container nav-item nav-link">
+                        <span me-2>'.$session_token['username'].'</span>
                         <img src="/photos/user_profile/'.$profile_picture.'" rel="your profile picture" style="height: 3vh;">
-                    </div>';
+                    </a>';
                 }
                 else {
                     echo '<li class="nav-item"><a href="login.php" class="nav-link">Your Gallery</a></li>';
