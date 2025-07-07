@@ -13,7 +13,7 @@
     <?php include_once getenv("SRC_PATH")."/components/navbar.php" ?>
 
     <!-- User Profile -->
-    <div class="container hstack text-bg-dark border rounded p-3 mb-2 gap-3">
+    <div class="container hstack text-bg-dark border rounded p-3 mb-2 gap-3" style="position: relative;">
         <?php
             include_once getenv("SRC_PATH")."/public/api/connection.php";
             $db_manager_obj = new DBManager();
@@ -23,6 +23,16 @@
                 echo '<img src="/photos/user_profile/'.$user['Profile_Picture'].'" rel="'.$user['Username'].'" width="100" class="object-fit-contain rounded-circle border border-light border-2">';
                 echo '<h1>'.$user['Username'].'</h1>';
             }
+        ?>
+        <?php
+            require_once getenv("SRC_PATH")."/utils/cookie-checker.php";
+
+            $session_token_content = checkCookie();
+            if(isset($session_token_content) && isset($session_token_content['username']) && $session_token_content['username'] == $user['Username'])
+            {
+                echo '<a class="btn btn-primary" style="position: absolute; right: 1vw; bottom: 1vh;" href="settings.php?user='. $user['Username'] .'">User Settings</a>';
+            }
+
         ?>
     </div>
 
