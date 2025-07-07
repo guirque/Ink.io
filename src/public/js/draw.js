@@ -114,14 +114,16 @@ async function saveDrawing()
             "Content-Type": "application/x-www-form-urlencoded"
         }
     })
-
-    console.log(await res.json());
 }
 
-
-
-saveButton.addEventListener('click', (e)=>
+let clicked = false;
+saveButton.addEventListener('click', async (e)=>
     {
-        e.preventDefault();
-        saveDrawing();
+        if(!clicked)
+        {
+            clicked = true;
+            e.preventDefault();
+            await saveDrawing();
+            location.href = '/';
+        }
     })
