@@ -9,10 +9,9 @@
     try
     {
         require_once "connection.php";
+        require_once getenv("SRC_PATH")."/utils/emit-alert.php";
         
         $db_manager_obj = new DBManager();
-
-        echo "<br>";
 
         $file_path = getenv("SRC_PATH")."/".getenv("USER_PROFILE_PATH");
 
@@ -43,20 +42,27 @@
                     # Saving user on database
                     $encrypted_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
                     $db_manager_obj->create_user($_POST['username'], $encrypted_password, $_POST['email'], $file_name);
-                    echo "<h1>User creation operation finished.</h1>";
-                    # echo "<hr><img src=\"http://webdev.com/photos/user_profile/$file_name\" alt=\"user photo\" width=\"400\"/><hr>";
+                    successMsg("Your account has been created.");
                 }
     
             }
-            else echo "<h1>File extension $file_extension not accepted.</h1>";
+            else dangerMsg("File extension $file_extension not accepted.");
 
         }
-        else echo "<h1>An error occurred when trying to upload profile picture.</h1>";
-
+        else if(!isset($_FILES) || !isset($_FILES['profile_picture']) || $_FILES['profile_picture']['size'] <= 0)
+        {
+            # Saving user on database
+            $encrypted_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+            $db_manager_obj->create_user($_POST['username'], $encrypted_password, $_POST['email'], "default.png");
+            successMsg("Your account has been created.");
+        }
+        else dangerMsg("An error occurred when trying to upload profile picture.");
     }
     catch(Exception $e)
     {
-        echo "An error occurred: ".$e->getMessage();
+        dangerMsg('An error occurred on account creation. Please try again later.');
     }
+
+    require_once getenv("SRC_PATH")."/public/gallery.php";
 
 ?>
