@@ -56,15 +56,16 @@ async function renderDrawings(all=true)
 
         newCard.innerHTML = `
             <!-- User info -->
-            <div class="card-header drawing-header">
-                <a href="" class="drawing-user-link hstack gap-3 align-items-center">
-                    <img src="./img/icon.png" class="drawing-profile-img object-fit-contain rounded-circle border border-secondary border-1" alt="User photo" style="width:40px;">
+            <div class="card-header drawing-header vstack">
+                <a href="" class="drawing-user-link hstack gap-3 align-items-center bg-secondary-subtle rounded rounded-2 p-1 mb-1 d-flex">
+                    <img src="/img/icon.png" class="drawing-profile-img object-fit-contain rounded-circle border border-secondary border-1" alt="User photo" style="width:40px;">
                     <h3 class="drawing-author text-dark"> User </h3>
                 </a>
+                <h2 class="drawing-title"></h2>
             </div>
 
             <!-- Drawing itself -->
-            <img class="card-img-top drawing-img" src="./img/drawing-placeholder.png" alt="a drawing"></img>
+            <img class="card-img-top drawing-img" src="/img/drawing-placeholder.png" alt="a drawing"></img>
 
             <!-- Drawing info -->
             <div class="card-body">
@@ -79,10 +80,11 @@ async function renderDrawings(all=true)
         drawingImg = newCard.querySelector('.drawing-img'),
         cardDesc = newCard.querySelector('.drawing-description');
 
-        header.querySelector('.drawing-profile-img').setAttribute('src', `./photos/user_profile/${drawing['Profile_Picture']}`);
+        header.querySelector('.drawing-profile-img').setAttribute('src', `/photos/user_profile/${drawing['Profile_Picture']}`);
         header.querySelector('.drawing-author').textContent = drawing['Author'];
         header.querySelector('.drawing-user-link').setAttribute('href', `/personal-gallery.php?user=${drawing['Author']}`);
-        drawingImg.setAttribute('src', `./photos/user_drawing/${drawing['Image']}`);
+        header.querySelector('.drawing-title').textContent = drawing['Title'];
+        drawingImg.setAttribute('src', `/photos/user_drawing/${drawing['Image']}`);
         cardDesc.textContent = drawing['Description'];
 
         // Adding card to row
