@@ -5,7 +5,7 @@ class DBManager
 {
     private $connection;
     private $createUserStmt, $createDrawingStmt, $getRecentDrawingsStmt, $getUserByIdStmt, 
-    $getUserByEmailStmt, $getDrawingsByUserStmt, $deleteUserByIdStmt;
+    $getUserByEmailStmt, $getDrawingsByUserStmt, $deleteUserByIdStmt, $updateUseEmailrByIdStmt;
 
     function __construct()
     {
@@ -28,6 +28,7 @@ class DBManager
         $this->getUserByEmailStmt = $this->connection->prepare("SELECT * FROM user WHERE Email=:email");
         $this->getDrawingsByUserStmt = $this->connection->prepare("SELECT d.Author, d.Title, d.Description, d.Image, d.Published_Date, u.Profile_Picture FROM drawing as d, user as u WHERE d.Author = u.Username AND d.Author=:username");
         $this->deleteUserByIdStmt = $this->connection->prepare("DELETE FROM user WHERE Username=:id");
+        $this->updateUserByIdStmt = $this->connection->prepare("UPDATE user SET Email=:email WHERE Username=:id");
     }
     
     function getConnection()
@@ -106,6 +107,14 @@ class DBManager
     {
         $this->deleteUserByIdStmt->execute(array(
             ":id"=>$id
+        ));
+    }
+
+    function update_user_by_id($id, $email)
+    {
+        $this->updateUserByIdStmt->execute(array(
+            ":id"=>$id,
+            ":email"=>$email
         ));
     }
 }
