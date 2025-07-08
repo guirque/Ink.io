@@ -1,6 +1,6 @@
 .env
 db/
 src/public/photos/user_drawing/*
-src/public/photos/user_profile/*
+src/public/photos/user_profile/[^default.png]*
 vendor/
 composer.phar
