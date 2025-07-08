@@ -32,131 +32,81 @@ class DBManager
     
     function getConnection()
     {
-        echo "getting connection...";
         return $this->connection;
     }
 
     function create_user($username, $password, $email, $profile_picture = NULL)
     {
-        try
-        {
-            $this->createUserStmt->execute(array(
-                ":username"=>$username,
-                ":password"=>$password,
-                ":profile_picture"=>$profile_picture,
-                ":email"=>$email
-            ));
-        }
-        catch(Exception $e)
-        {
-            echo "An error occurred: ".$e->getMessage();
-        }
+        $this->createUserStmt->execute(array(
+            ":username"=>$username,
+            ":password"=>$password,
+            ":profile_picture"=>$profile_picture,
+            ":email"=>$email
+        ));
     }
 
     function create_drawing($author, $title, $description, $image)
     {
-        try
-        {
-            //(:id, :author, :title, :description, :image, :published_date)");
-            $this->createDrawingStmt->execute(array(
-                ":id"=>uniqid("d-"),
-                ":author"=>$author,
-                ":title"=>$title,
-                ":description"=>$description,
-                ":image"=>$image,
-                ":published_date"=>date("Y-m-d H:i:s")  #https://www.uptimia.com/questions/what-is-the-correct-php-date-format-for-mysql-datetime-columns#:~:text=To%20format%20dates%20in%20PHP,that%20MySQL%20can%20store%20correctly.
-            ));
-        }
-        catch(Exception $e)
-        {
-            echo "An error occurred: ".$e->getMessage();
-        }
+        //(:id, :author, :title, :description, :image, :published_date)");
+        $this->createDrawingStmt->execute(array(
+            ":id"=>uniqid("d-"),
+            ":author"=>$author,
+            ":title"=>$title,
+            ":description"=>$description,
+            ":image"=>$image,
+            ":published_date"=>date("Y-m-d H:i:s")  #https://www.uptimia.com/questions/what-is-the-correct-php-date-format-for-mysql-datetime-columns#:~:text=To%20format%20dates%20in%20PHP,that%20MySQL%20can%20store%20correctly.
+        ));
     }
 
     function get_recent_drawings()
     {
-        try
-        {
-            $this->getRecentDrawingsStmt->execute();
+        $this->getRecentDrawingsStmt->execute();
 
-            $res = [];
+        $res = [];
 
-            while($row = $this->getRecentDrawingsStmt->fetch(PDO::FETCH_ASSOC))
-            {
-                array_push($res, $row);
-            }
-            return $res;
-        }
-        catch(Exception $e)
+        while($row = $this->getRecentDrawingsStmt->fetch(PDO::FETCH_ASSOC))
         {
-            echo "An error occurred: ".$e->getMessage();
+            array_push($res, $row);
         }
+        return $res;
     }
 
     function get_drawings_by_user($username)
     {
-        try
-        {
-            $this->getDrawingsByUserStmt->execute([
-                ":username"=>$username
-            ]);
+        $this->getDrawingsByUserStmt->execute([
+            ":username"=>$username
+        ]);
 
-            $res = [];
+        $res = [];
 
-            while($row = $this->getDrawingsByUserStmt->fetch(PDO::FETCH_ASSOC))
-            {
-                array_push($res, $row);
-            }
-            return $res;
-        }
-        catch(Exception $e)
+        while($row = $this->getDrawingsByUserStmt->fetch(PDO::FETCH_ASSOC))
         {
-            echo "An error occurred: ".$e->getMessage();
+            array_push($res, $row);
         }
+        return $res;
     }
 
     function get_user_by_id($username)
     {
-        try
-        {
-            $this->getUserByIdStmt->execute(array(
-                ":username"=>$username
-            ));
-            return $this->getUserByIdStmt->fetch(PDO::FETCH_ASSOC);
-        }
-        catch(Exception $e)
-        {
-            echo "An error occurred: ".$e->getMessage();
-        }
+        $this->getUserByIdStmt->execute(array(
+            ":username"=>$username
+        ));
+        return $this->getUserByIdStmt->fetch(PDO::FETCH_ASSOC);
     }
 
     function get_user_by_email($email)
     {
-        try
-        {
-            $this->getUserByEmailStmt->execute(array(
-                ":email"=>$email
-            ));
-            return $this->getUserByEmailStmt->fetch(PDO::FETCH_ASSOC);
-        }
-        catch(Exception $e)
-        {
-            echo "An error occurred: ".$e->getMessage();
-        }
+        $this->getUserByEmailStmt->execute(array(
+            ":email"=>$email
+        ));
+        return $this->getUserByEmailStmt->fetch(PDO::FETCH_ASSOC);
     }
 
     function delete_user_by_id($id)
     {
-         try
-        {
-            $this->deleteUserByIdStmt->execute(array(
-                ":id"=>$id
-            ));
-        }
-        catch(Exception $e)
-        {
-            echo "An error occurred: ".$e->getMessage();
-        }
+        $this->deleteUserByIdStmt->execute(array(
+            ":id"=>$id
+        ));
     }
 }
 
