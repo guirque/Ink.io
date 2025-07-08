@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App</title>
+    <title>Ink.io - Create Your Account</title>
+    <link rel="shortcut icon" href="/img/icon.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 </head>
 <body>
@@ -24,13 +25,13 @@
                         <form action="./api/create_user.php" method="post" enctype="multipart/form-data" class="vstack g-2">
                             
                             <label for="username" class="form-label">Username: </label>
-                            <input type="text" name="username" id="username" class="form-control">
+                            <input type="text" name="username" id="username" class="form-control" required>
                     
                             <label for="password" class="form-label">Password: </label>
-                            <input type="password" name="password" id="password" class="form-control">
+                            <input type="password" name="password" id="password" class="form-control" required>
                             
                             <label for="email" class="form-label">Email: </label>
-                            <input type="email" name="email" id="email" class="form-control">
+                            <input type="email" name="email" id="email" class="form-control" required>
                     
                             <label for="profile_picture" class="form-label">Profile Picture: </label>
                             <input type="file" name="profile_picture" id="profile_picture" class="form-control">

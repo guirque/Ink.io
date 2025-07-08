@@ -17,7 +17,7 @@
             
             $db_manager_obj = new DBManager();
 
-            $file_path = "/var/www/webdev.com/src/".getenv("USER_DRAWING_PATH");
+            $file_path = "/var/www/ink.io/src/".getenv("USER_DRAWING_PATH");
 
             $username = $token_data['username'];
             $d_title = $_POST['title'];

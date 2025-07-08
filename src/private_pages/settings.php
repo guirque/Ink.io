@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
+    <title>Ink.io - User Settings</title>
+    <link rel="shortcut icon" href="/img/icon.png" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="css/general.css">
 </head>
@@ -26,12 +27,12 @@
     ?>
 
     <!-- Content -->
-    <div id="gallery" class="container-fluid d-flex gap-4 pb-5" style="flex-direction: column; min-height: 100vh;">
+    <div class="container-fluid d-flex gap-4" style="flex-direction: column; min-height: 100vh;">
         <div class="row">
             <div class="col-4 text-bg-dark d-flex align-items-center p-5 vstack">
                 
                 <?php
-                    echo '<img src="/photos/user_profile/'.$user['Profile_Picture'].'" alt="your profile picture" width="200">';
+                    echo '<img src="/photos/user_profile/'.$user['Profile_Picture'].'" alt="your profile picture" width="200" class="drawing-profile-img object-fit-contain rounded-circle border border-secondary border-1">';
                     echo '<h2>'.$user['Username'].'</h2>';
                 ?>
             </div>

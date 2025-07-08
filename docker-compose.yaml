@@ -15,7 +15,7 @@ services:
       dockerfile: ./dockerfile
       context: .
     volumes:
-      - ./src/:/var/www/webdev.com/src/
+      - ./src/:/var/www/ink.io/src/
     ports:
       - 80:80
     env_file:

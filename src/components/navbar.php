@@ -2,7 +2,10 @@
     <div class="container">
 
         <!-- Icon -->
-        <img class="navbar-brand" src="./img/icon.png" style="width: 40px;"></img>
+        <a href="/" class="navbar-brand">
+            <img src="/img/icon.png" style="width: 40px;"/>
+            <span>Ink.io</span>
+        </a>
 
         <!-- Links -->
         <ul class="navbar-nav align-items-center">
@@ -24,12 +27,12 @@
 
                     echo '<a href="'.$profile_link.'" class="container nav-item nav-link">
                         <span me-2>'.$session_token['username'].'</span>
-                        <img src="/photos/user_profile/'.$profile_picture.'" rel="your profile picture" style="height: 3vh;">
+                        <img src="/photos/user_profile/'.$profile_picture.'" rel="your profile picture" style="height: 3vh;" class="drawing-profile-img object-fit-contain rounded-circle border border-secondary border-1">
                     </a>';
                 }
                 else {
-                    echo '<li class="nav-item"><a href="login.php" class="nav-link">Your Gallery</a></li>';
-                    echo '<li class="nav-item"><a href="login.php" class="nav-link">Login</a></li>';
+                    echo '<li class="nav-item"><a href="/account-creation.php" class="nav-link">Create Account</a></li>';
+                    echo '<li class="nav-item"><a href="/login.php" class="nav-link">Login</a></li>';
                 }
             ?>
             
