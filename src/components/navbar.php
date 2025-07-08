@@ -24,7 +24,7 @@
                     $profile_link = "/personal-gallery.php?user=".$session_token['username'];
 
                     echo '<li class="nav-item"><a href="'.$profile_link.'" class="nav-link">Your Gallery</a></li> ';
-
+                    echo '<li class="nav-item"><a href="" class="nav-link" id="logout-btn">Logout</a></li> ';
                     echo '<a href="'.$profile_link.'" class="container nav-item nav-link">
                         <span me-2>'.$session_token['username'].'</span>
                         <img src="/photos/user_profile/'.$profile_picture.'" rel="your profile picture" style="height: 3vh;" class="drawing-profile-img object-fit-contain rounded-circle border border-secondary border-1">
@@ -39,3 +39,4 @@
         </ul>
     </div>
 </nav>
+<script src="/js/logout.js"></script>
